@@ -25,10 +25,7 @@ jobs:
           sudo apt -y update
           sudo apt -y install python3-pip python3-testresources
           python -m pip install -r requirements.txt
-      - name: Setup app
-        run: |
-          uvicorn app.main:app
-      - name: Run unit tests
+      - name: Run tests
         run: |
           python -m pytest
       - name: Report Status
