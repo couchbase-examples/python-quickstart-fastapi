@@ -1,0 +1,45 @@
+name: Tests
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      DB_CONN_STR: ${{ vars.DB_CONN_STR }}
+      DB_USERNAME: ${{ vars.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+    steps:
+      - name: Update repositories
+        run: |
+          apt update || echo "apt-update failed" # && apt -y upgrade
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        run: |
+          sudo apt -y update
+          sudo apt -y install python3-pip python3-testresources
+          python -m pip install -r requirements.txt
+      - name: Setup app
+        run: |
+          uvicorn app.main:app
+          sleep 10
+      - name: Run unit tests
+        run: |
+          python -m pytest
+      - name: Report Status
+        if: always()
+        uses: ravsamhq/notify-slack-action@v1
+        with:
+          status: ${{ job.status }}
+          notify_when: "failure,warnings"
+          notification_title: "Repo: *{repo}*"
+          message_format: "{emoji}    *{status_message}* in <{repo_url}|{repo}@{branch}> on <{commit_url}|{commit_sha}>"
+          footer: "<{run_url}|View Full Run on GitHub>"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.ACTION_MONITORING_SLACK }}
