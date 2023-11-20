@@ -1,8 +1,6 @@
 import pytest
-import sys
 from couchbase.exceptions import DocumentNotFoundException
 
-sys.path.append("..")
 BASE = "http://127.0.0.1:8000"
 BASE_URI = f"{BASE}/api/v1"
 
