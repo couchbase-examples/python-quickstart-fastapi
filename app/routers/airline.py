@@ -33,7 +33,7 @@ class Airline(BaseModel):
 @router.get(
     "/list",
     response_model=list[Airline],
-    description="Get a list of airlines with pagination. Optionally, you can filter the list by Country. \n\n This provides an example of using [SQL++ query](https://docs.couchbase.com/python-sdk/current/howtos/n1ql-queries-with-sdk.html) in Couchbase to fetch a list of documents matching the specified criteria.\n\n Code: `routers/airline.py`\n\n Method: `get_airlines_list`",
+    description="Get a list of airlines with pagination. Optionally, you can filter the list by Country. \n\n This provides an example of using [SQL++ query](https://docs.couchbase.com/python-sdk/current/howtos/n1ql-queries-with-sdk.html) in Couchbase to fetch a list of documents matching the specified criteria.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `get_airlines_list`",
     responses={
         500: {
             "description": "Unexpected Error",
@@ -101,7 +101,7 @@ def get_airlines_list(
 @router.get(
     "/to-airport",
     response_model=list[Airline],
-    description="Get Airlines flying to specified destination Airport. \n\n This provides an example of using [SQL++ query](https://docs.couchbase.com/python-sdk/current/howtos/n1ql-queries-with-sdk.html) in Couchbase to fetch a list of documents matching the specified criteria.\n\n Code: `routers/airline.py`\n\n Method: `get_airlines_to_airport`",
+    description="Get Airlines flying to specified destination Airport. \n\n This provides an example of using [SQL++ query](https://docs.couchbase.com/python-sdk/current/howtos/n1ql-queries-with-sdk.html) in Couchbase to fetch a list of documents matching the specified criteria.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `get_airlines_to_airport`",
     responses={
         500: {
             "description": "Unexpected Error",
@@ -159,7 +159,7 @@ def get_airlines_to_airport(
 @router.get(
     "/{id}",
     response_model=Airline,
-    description="Get Airline with specified ID. \n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to get a document with specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/airline.py` \n\n Method: `read_airline`",
+    description="Get Airline with specified ID. \n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to get a document with specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `read_airline`",
     responses={
         404: {
             "description": "Airline not found",
@@ -194,7 +194,7 @@ def read_airline(
 @router.post(
     "/{id}",
     response_model=Airline,
-    description="Create Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to create a new document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/airline.py` \n\n Method: `create_airline`",
+    description="Create Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to create a new document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `create_airline`",
     status_code=status.HTTP_201_CREATED,
     responses={
         409: {
@@ -232,7 +232,7 @@ def create_airline(
 @router.put(
     "/{id}",
     response_model=Airline,
-    description="Update Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to upsert a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/airline.py` \n\n Method: `update_airline`",
+    description="Update Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to upsert a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `update_airline`",
     responses={
         200: {
             "description": "Airline Updated",
@@ -267,7 +267,7 @@ def update_airline(
 @router.delete(
     "/{id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    description="Delete Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to delete a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/airline.py` \n\n Method: `delete_airline`",
+    description="Delete Airline with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to delete a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/airline.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/airline.py) \n\n Method: `delete_airline`",
     responses={
         404: {
             "description": "Airline not found",

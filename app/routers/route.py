@@ -49,7 +49,7 @@ class Route(BaseModel):
 @router.get(
     "/{id}",
     response_model=Route,
-    description="Get route with specified ID. \n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to get a document with specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/route.py` \n\n Method: `read_route`",
+    description="Get route with specified ID. \n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to get a document with specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/route.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/route.py) \n\n Method: `read_route`",
     responses={
         404: {
             "description": "Route not found",
@@ -82,7 +82,7 @@ def read_route(
 @router.post(
     "/{id}",
     response_model=Route,
-    description="Create route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to create a new document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/route.py` \n\n Method: `create_route`",
+    description="Create route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to create a new document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/route.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/route.py) \n\n Method: `create_route`",
     status_code=status.HTTP_201_CREATED,
     responses={
         409: {
@@ -118,7 +118,7 @@ def create_route(
 @router.put(
     "/{id}",
     response_model=Route,
-    description="Update route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to upsert a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/route.py` \n\n Method: `update_route`",
+    description="Update route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to upsert a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/route.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/route.py) \n\n Method: `update_route`",
     responses={
         200: {
             "description": "Route Updated",
@@ -151,7 +151,7 @@ def update_route(
 @router.delete(
     "/{id}",
     status_code=status.HTTP_204_NO_CONTENT,
-    description="Delete route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to delete a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: `routers/route.py` \n\n Method: `delete_route`",
+    description="Delete route with specified ID.\n\n This provides an example of using [Key Value operations](https://docs.couchbase.com/python-sdk/current/howtos/kv-operations.html) in Couchbase to delete a document with a specified ID.\n\n Key Value operations are unique to Couchbase and provide very high speed get/set/delete operations.\n\n Code: [`routers/route.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/route.py) \n\n Method: `delete_route`",
     responses={
         404: {
             "description": "Route not found",
