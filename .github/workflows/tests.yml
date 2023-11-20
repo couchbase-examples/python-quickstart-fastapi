@@ -28,7 +28,6 @@ jobs:
       - name: Setup app
         run: |
           uvicorn app.main:app
-          sleep 10
       - name: Run unit tests
         run: |
           python -m pytest
