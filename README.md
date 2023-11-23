@@ -96,9 +96,9 @@ The application will run on port 8000 of your local machine (http://localhost:80
 
 ![Swagger Documentation](images/swagger_documentation.png)
 
-## Running The Tests
+## Running Tests
 
-To run the standard tests, use the following commands:
+To run the integration tests, use the following commands:
 
 ```sh
 python -m pytest
