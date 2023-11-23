@@ -47,15 +47,13 @@ class CouchbaseClient(object):
             except CouchbaseException as error:
                 print(f"Could not connect to cluster. \nError: {error}")
                 print(
-                    "Ensure that you have the travel-sample bucket loaded in the cluster."
+                    "WARNING: Ensure that you have the travel-sample bucket loaded in the cluster."
                 )
-                exit()
 
             if not self.check_scope_exists():
                 print(
-                    "Inventory scope does not exist in the bucket. \nEnsure that you have the inventory scope in your travel-sample bucket."
+                    "WARNING: Inventory scope does not exist in the bucket. \nEnsure that you have the inventory scope in your travel-sample bucket."
                 )
-                exit()
 
             # get a reference to our scope
             self.scope = self.bucket.scope(self.scope_name)
@@ -112,11 +110,8 @@ def get_db() -> CouchbaseClient:
     password = os.getenv("DB_PASSWORD")
     if conn_str is None:
         print("WARNING: DB_CONN_STR environment variable not set")
-        exit()
     if username is None:
         print("WARNING: DB_USERNAME environment variable not set")
-        exit()
     if password is None:
         print("WARNING: DB_PASSWORD environment variable not set")
-        exit()
     return CouchbaseClient(conn_str, username, password)
