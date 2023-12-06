@@ -50,7 +50,9 @@ Specifically, you need to do the following:
 
 All configuration for communication with the database is read from the environment variables. We have provided a convenience feature in this quickstart to read the environment variables from a local file, `.env` in the source folder.
 
-Create a copy of `.env.example` & rename it to `.env` & add the values for the Couchbase connection.
+Create a copy of `.env.example` in the `app` folder & rename it to `.env`& add the values for the Couchbase connection.
+
+> Note: Files starting with `.` could be hidden in the file manager in your Unix based systems including GNU/Linux and Mac OS.
 
 ```sh
 DB_CONN_STR=<connection_string>
