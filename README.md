@@ -9,6 +9,8 @@ Often, the first step developers do after creating their database is to create a
 
 Full documentation for the tutorial can be found on the [Couchbase Developer Portal](https://developer.couchbase.com/tutorial-quickstart-fastapi-python/).
 
+If you are looking for a quickstart using [Flask](https://flask.palletsprojects.com/en/3.0.x/), you can find it in this [repo](https://github.com/couchbase-examples/python-quickstart).
+
 ## Prerequisites
 
 To run this prebuilt project, you will need:
