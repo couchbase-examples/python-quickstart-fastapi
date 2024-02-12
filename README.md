@@ -41,6 +41,8 @@ The dependencies for the application are specified in the `requirements.txt` fil
 python -m pip install -r requirements.txt
 ```
 
+> Note: If your Python is not symbolically linked to python3, you need to run all commands using `python3` instead of `python`.
+
 ### Setup Database Configuration
 
 To know more about connecting to your Capella cluster, please follow the [instructions](https://docs.couchbase.com/cloud/get-started/connect.html).
