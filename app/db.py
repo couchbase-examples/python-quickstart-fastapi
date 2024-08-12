@@ -6,7 +6,13 @@ from couchbase.exceptions import CouchbaseException
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
+import json
 from functools import cache
+from couchbase.management.search import SearchIndex
+from couchbase.exceptions import QueryIndexAlreadyExistsException
+from couchbase.options import SearchOptions
+from couchbase.search import MatchQuery, ConjunctionQuery, TermQuery
+import couchbase.search as search
 
 
 class CouchbaseClient(object):
@@ -19,6 +25,7 @@ class CouchbaseClient(object):
         self.conn_str = conn_str
         self.username = username
         self.password = password
+        self.index_name = "hotel_search"
         self.bucket_name = "travel-sample"
         self.scope_name = "inventory"
         self.connect()
@@ -57,6 +64,8 @@ class CouchbaseClient(object):
 
             # get a reference to our scope
             self.scope = self.bucket.scope(self.scope_name)
+            # Call the method to create the fts index
+            self.create_search_index()
 
     def check_scope_exists(self) -> bool:
         """Check if the scope exists in the bucket"""
@@ -69,6 +78,21 @@ class CouchbaseClient(object):
             print(
                 "Error fetching scopes in cluster. \nEnsure that travel-sample bucket exists."
             )
+
+    def create_search_index(self) -> None:
+        """Upsert a fts index in the Couchbase cluster"""
+        try:
+            scope_index_manager = self.bucket.scope(self.scope_name).search_indexes()
+            with open(f"{self.index_name}_index.json", "r") as f:
+                index_definition = json.load(f)
+
+            # Upsert the index
+            scope_index_manager.upsert_index(SearchIndex.from_json(index_definition))
+            print(f"Index '{self.index_name}' created or updated successfully.")
+        except QueryIndexAlreadyExistsException:
+            print(f"Index with name '{self.index_name}' already exists")
+        except Exception as e:
+            print(f"Error upserting index '{self.index_name}': {e}")
 
     def close(self) -> None:
         """Close the connection to the Couchbase cluster"""
@@ -99,6 +123,59 @@ class CouchbaseClient(object):
         # options are used for positional parameters
         # kwargs are used for named parameters
         return self.scope.query(sql_query, *options, **kwargs)
+
+    def search_by_name(self, name):
+        """Perform a full-text search for hotel names using the given name"""
+        try:
+            searchQuery = search.SearchRequest.create(
+                search.MatchQuery(name, field="name")
+            )
+            searchResult = self.scope.search(
+                self.index_name, searchQuery, SearchOptions(limit=50, fields=["name"])
+            )
+            names = []
+            for row in searchResult.rows():
+                hotel = row.fields
+                names.append(hotel.get("name", ""))
+        except Exception as e:
+            print("Error while performing fts search", {e})
+        return names
+
+    def filter(self, filter: dict, limit, offset):
+        """Perform a full-text search with filters and pagination"""
+        try:
+            conjuncts = []
+
+            match_query_terms = ["description", "name", "title"]
+            conjuncts.extend(
+                [
+                    MatchQuery(filter[t], field=t)
+                    for t in match_query_terms
+                    if t in filter
+                ]
+            )
+            term_query_terms = ["city", "country", "state"]
+            conjuncts.extend(
+                [TermQuery(filter[t], field=t) for t in term_query_terms if t in filter]
+            )
+
+            if conjuncts:
+                query = ConjunctionQuery(*conjuncts)
+            else:
+                return []
+
+            options = SearchOptions(fields=["*"], limit=limit, skip=offset)
+
+            result = self.scope.search(
+                self.index_name, search.SearchRequest.create(query), options
+            )
+            hotels = []
+            for row in result.rows():
+                hotel = row.fields
+                hotels.append(hotel)
+        except Exception as e:
+            print("Error while performing fts search", {e})
+        return hotels
 
 
 @cache

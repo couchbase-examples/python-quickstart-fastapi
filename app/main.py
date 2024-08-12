@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from starlette.responses import RedirectResponse
-from app.routers import airline, airport, route
+from app.routers import airline, airport, route, hotel
 from app.db import get_db
 
 
@@ -43,6 +43,7 @@ app = FastAPI(
 app.include_router(airline.router, tags=["airline"], prefix="/api/v1/airline")
 app.include_router(airport.router, tags=["airport"], prefix="/api/v1/airport")
 app.include_router(route.router, tags=["route"], prefix="/api/v1/route")
+app.include_router(hotel.router, tags=["hotel"], prefix="/api/v1/hotel")
 
 
 # Redirect to Swagger documentation on loading the API for demo purposes
