@@ -5,6 +5,8 @@ from couchbase.auth import PasswordAuthenticator
 from couchbase.exceptions import CouchbaseException
 from datetime import timedelta
 from dotenv import load_dotenv
+from couchbase.result import PingResult
+from couchbase.diagnostics import PingState, ServiceType
 import os
 import json
 from functools import cache
@@ -64,8 +66,13 @@ class CouchbaseClient(object):
 
             # get a reference to our scope
             self.scope = self.bucket.scope(self.scope_name)
-            # Call the method to create the fts index
-            self.create_search_index()
+            # Call the method to create the fts index if search service is enabled
+            if self.is_search_service_enabled():
+                self.create_search_index()
+            else:
+                print(
+                    "Search service is not enabled on this cluster. Skipping search index creation."
+                )
 
     def check_scope_exists(self) -> bool:
         """Check if the scope exists in the bucket"""
@@ -78,6 +85,21 @@ class CouchbaseClient(object):
             print(
                 "Error fetching scopes in cluster. \nEnsure that travel-sample bucket exists."
             )
+
+    def is_search_service_enabled(self, min_nodes: int = 1) -> bool:
+        try:
+            ping_result: PingResult = self.cluster.ping()
+            search_endpoints = ping_result.endpoints[ServiceType.Search]
+            available_search_nodes = 0
+            for endpoint in search_endpoints:
+                if endpoint.state == PingState.OK:
+                    available_search_nodes += 1
+            return available_search_nodes >= min_nodes
+        except Exception as e:
+            print(
+                f"Error checking search service status. \nEnsure that Search Service is enabled: {e}"
+            )
+            return False
 
     def create_search_index(self) -> None:
         """Upsert a fts index in the Couchbase cluster"""
