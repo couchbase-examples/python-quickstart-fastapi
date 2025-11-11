@@ -1,5 +1,5 @@
 couchbase==4.5.0
-fastapi==0.121.0
+fastapi==0.121.1
 httpx==0.28.1
 pydantic==2.12.4
 pydantic_settings==2.11.0
