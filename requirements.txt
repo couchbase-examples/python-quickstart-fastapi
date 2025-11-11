@@ -3,6 +3,6 @@ fastapi==0.121.1
 httpx==0.28.1
 pydantic==2.12.4
 pydantic_settings==2.11.0
-pytest==8.4.2
+pytest==9.0.0
 python-dotenv==1.2.1
 uvicorn==0.38.0
