@@ -5,4 +5,4 @@ pydantic==2.12.5
 pydantic_settings==2.13.1
 pytest==9.0.2
 python-dotenv==1.2.2
-uvicorn==0.41.0
+uvicorn==0.42.0
