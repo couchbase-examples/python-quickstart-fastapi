@@ -40,7 +40,7 @@ class Hotel(BaseModel):
 @router.get(
     "/autocomplete",
     response_model=List[HotelName],
-    description="Search for hotels based on their name. \n\n This provides an example of using [Search operations](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) in Couchbase to search for a specific name using the fts index.\n\n Code: [`api/hotel.py`](https://github.com/couchbase-examples/python-quickstart/blob/main/src/api/hotel.py) \n Method: `get`",
+    description="Search for hotels based on their name. \n\n This provides an example of using [Search operations](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) in Couchbase to search for a specific name using the fts index.\n\n Code: [`routers/hotel.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/hotel.py) \n\n Method: `hotel_autocomplete`",
     responses={
         200: {
             "description": "List of Hotel Names",
@@ -72,7 +72,7 @@ def hotel_autocomplete(
 @router.post(
     "/filter",
     response_model=List[Hotel],
-    description="Filter hotels using various filters such as name, title, description, country, state and city. \n\n This provides an example of using [Search operations](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) in Couchbase to filter documents using the fts index.\n\n Code: [`api/hotel.py`](https://github.com/couchbase-examples/python-quickstart/blob/main/src/api/hotel.py) \n Method: `post`",
+    description="Filter hotels using various filters such as name, title, description, country, state and city. \n\n This provides an example of using [Search operations](https://docs.couchbase.com/python-sdk/current/howtos/full-text-searching-with-sdk.html#search-queries) in Couchbase to filter documents using the fts index.\n\n Code: [`routers/hotel.py`](https://github.com/couchbase-examples/python-quickstart-fastapi/blob/main/app/routers/hotel.py) \n\n Method: `hotel_filter`",
     responses={
         200: {
             "description": "List of Hotel",
