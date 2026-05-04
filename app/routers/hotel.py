@@ -1,5 +1,5 @@
 from typing import List, Optional
-from typing_extensions import Annotated
+from typing import Annotated
 
 from app.db import get_db as CouchbaseClient
 from fastapi import APIRouter, Depends, HTTPException, Query

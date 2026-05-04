@@ -1,5 +1,5 @@
 from typing import Union
-from typing_extensions import Annotated
+from typing import Annotated
 
 from couchbase.exceptions import DocumentExistsException, DocumentNotFoundException
 from app.db import get_db as CouchbaseClient
