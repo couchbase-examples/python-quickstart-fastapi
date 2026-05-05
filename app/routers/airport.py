@@ -1,5 +1,5 @@
 from typing import Union
-from typing_extensions import Annotated
+from typing import Annotated
 
 from couchbase.exceptions import DocumentExistsException, DocumentNotFoundException
 from app.db import get_db as CouchbaseClient
@@ -114,7 +114,7 @@ def get_airports_list(
         airports = [r for r in result]
         return airports
     except Exception as e:
-        return f"Unexpected error: {e}", 500
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 
 class DestinationAirport(BaseModel):
@@ -174,7 +174,7 @@ def get_airport_direct_connections(
         airports = [r for r in result]
         return airports
     except Exception as e:
-        return HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 
 @router.get(

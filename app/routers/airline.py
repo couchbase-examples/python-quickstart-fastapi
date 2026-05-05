@@ -1,5 +1,5 @@
 from typing import Union
-from typing_extensions import Annotated
+from typing import Annotated
 
 from couchbase.exceptions import DocumentExistsException, DocumentNotFoundException
 from app.db import get_db
@@ -95,7 +95,7 @@ def get_airlines_list(
         airlines = [r for r in result]
         return airlines
     except Exception as e:
-        return f"Unexpected error: {e}", 500
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 
 @router.get(
@@ -153,7 +153,7 @@ def get_airlines_to_airport(
         airlines = [r for r in result]
         return airlines
     except Exception as e:
-        return HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
 
 
 @router.get(
