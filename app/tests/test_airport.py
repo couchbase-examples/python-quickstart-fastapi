@@ -3,8 +3,27 @@ import pytest
 from couchbase.exceptions import DocumentNotFoundException
 
 from app.main import app
+from app.routers.airport import _filter_complete_airports
 
 client = TestClient(app)
+
+
+def test_filter_complete_airports_skips_incomplete_rows():
+    complete_airport = {
+        "airportname": "Test Airport",
+        "city": "Test City",
+        "country": "Test Country",
+        "faa": "TAA",
+    }
+    incomplete_airport = {
+        "city": "Initial Test City",
+        "country": "Initial Test Country",
+        "faa": "TESTFAA",
+    }
+
+    assert _filter_complete_airports([complete_airport, incomplete_airport]) == [
+        complete_airport
+    ]
 
 
 class TestAirport:

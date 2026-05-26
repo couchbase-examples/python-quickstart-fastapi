@@ -112,9 +112,19 @@ def get_airports_list(
     try:
         result = db.query(query, country=country, limit=limit, offset=offset)
         airports = [r for r in result]
-        return airports
+        return _filter_complete_airports(airports)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
+
+
+def _filter_complete_airports(airports: list[dict]) -> list[dict]:
+    """Drop rows that cannot satisfy the Airport response model."""
+    required_fields = ("airportname", "city", "country")
+    return [
+        airport
+        for airport in airports
+        if all(field in airport and airport[field] is not None for field in required_fields)
+    ]
 
 
 class DestinationAirport(BaseModel):
