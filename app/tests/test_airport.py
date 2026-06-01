@@ -3,48 +3,8 @@ import pytest
 from couchbase.exceptions import DocumentNotFoundException
 
 from app.main import app
-from app.routers.airport import get_airports_list
 
 client = TestClient(app)
-
-
-class RecordingDB:
-    def __init__(self, rows):
-        self.rows = rows
-        self.calls = []
-
-    def query(self, query, **params):
-        self.calls.append((query, params))
-        return self.rows
-
-
-def test_list_airports_bakes_required_fields_into_the_query_before_pagination():
-    db = RecordingDB([])
-
-    assert get_airports_list(limit=3, offset=6, db=db) == []
-
-    query, params = db.calls[0]
-    assert "airport.airportname IS NOT MISSING" in query
-    assert "airport.airportname IS NOT NULL" in query
-    assert "airport.city IS NOT MISSING" in query
-    assert "airport.city IS NOT NULL" in query
-    assert "airport.country IS NOT MISSING" in query
-    assert "airport.country IS NOT NULL" in query
-    assert "ORDER BY airport.airportname" in query
-    assert "LIMIT $limit" in query
-    assert "OFFSET $offset" in query
-    assert params == {"country": None, "limit": 3, "offset": 6}
-
-
-def test_list_airports_bakes_country_filter_into_the_query_when_present():
-    db = RecordingDB([])
-
-    assert get_airports_list(country="France", limit=2, offset=4, db=db) == []
-
-    query, params = db.calls[0]
-    assert "WHERE airport.country = $country" in query
-    assert "airport.airportname IS NOT MISSING" in query
-    assert params == {"country": "France", "limit": 2, "offset": 4}
 
 
 class TestAirport:

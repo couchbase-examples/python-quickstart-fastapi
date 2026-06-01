@@ -79,15 +79,6 @@ def get_airports_list(
     db=Depends(CouchbaseClient),
 ) -> list[Airport]:
     """Get a list of airports with pagination. Optionally, filter by country."""
-    completeness_filters = """
-            airport.airportname IS NOT MISSING
-            AND airport.airportname IS NOT NULL
-            AND airport.city IS NOT MISSING
-            AND airport.city IS NOT NULL
-            AND airport.country IS NOT MISSING
-            AND airport.country IS NOT NULL
-    """
-
     if country:
         query = """
             SELECT airport.airportname,
@@ -99,7 +90,6 @@ def get_airports_list(
                 airport.tz
             FROM airport AS airport
             WHERE airport.country = $country
-            AND """ + completeness_filters + """
             ORDER BY airport.airportname
             LIMIT $limit
             OFFSET $offset;
@@ -114,7 +104,6 @@ def get_airports_list(
                 airport.icao,
                 airport.tz
             FROM airport AS airport
-            WHERE """ + completeness_filters + """
             ORDER BY airport.airportname
             LIMIT $limit
             OFFSET $offset;
