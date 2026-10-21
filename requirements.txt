@@ -4,5 +4,5 @@ httpx==0.28.1
 pydantic==2.13.5
 pydantic-settings==2.15.0
 pytest==9.1.1
-python-dotenv==1.2.3
+python-dotenv==1.2.4
 uvicorn==0.54.0
