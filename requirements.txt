@@ -1,4 +1,4 @@
-couchbase==4.6.3
+couchbase==4.6.4
 fastapi==0.161.1
 httpx==0.28.1
 pydantic==2.14.1
