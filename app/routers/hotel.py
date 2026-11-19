@@ -90,9 +90,8 @@ def hotel_filter(
 ) -> List[Hotel]:
     """Hotel filter with various filters"""
     try:
-        hotels = db.filter(
-            hotel.model_dump(exclude_none=True), limit=limit, offset=offset
-        )
+        filters = hotel.model_dump(exclude_none=True) if hotel else {}
+        hotels = db.filter(filters, limit=limit, offset=offset)
         return hotels
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Unexpected error: {e}")
