@@ -2,7 +2,7 @@ couchbase==4.6.4
 fastapi==0.162.0
 httpx==0.28.1
 pydantic==2.14.3
-pydantic-settings==2.16.1
+pydantic-settings==2.16.3
 pytest==9.1.1
 python-dotenv==1.2.4
 uvicorn==0.54.0
