@@ -147,57 +147,49 @@ class CouchbaseClient(object):
         return self.scope.query(sql_query, *options, **kwargs)
 
     def search_by_name(self, name):
-        """Perform a full-text search for hotel names using the given name"""
-        try:
-            searchQuery = search.SearchRequest.create(
-                search.MatchQuery(name, field="name")
-            )
-            searchResult = self.scope.search(
-                self.index_name, searchQuery, SearchOptions(limit=50, fields=["name"])
-            )
-            names = []
-            for row in searchResult.rows():
-                hotel = row.fields
-                names.append(hotel.get("name", ""))
-        except Exception as e:
-            print("Error while performing fts search", {e})
-        return names
+        """Perform a full-text search for hotel names using the given name.
+
+        Search errors (for example, a missing ``hotel_search`` index) are
+        raised to the caller instead of being swallowed, so the API can
+        report them rather than returning an empty result.
+        """
+        search_query = search.SearchRequest.create(
+            search.MatchQuery(name, field="name")
+        )
+        search_result = self.scope.search(
+            self.index_name, search_query, SearchOptions(limit=50, fields=["name"])
+        )
+        # rows() executes the request lazily, so errors surface here
+        return [row.fields.get("name", "") for row in search_result.rows()]
 
     def filter(self, filter: dict, limit, offset):
-        """Perform a full-text search with filters and pagination"""
-        try:
-            conjuncts = []
+        """Perform a full-text search with filters and pagination.
 
-            match_query_terms = ["description", "name", "title"]
-            conjuncts.extend(
-                [
-                    MatchQuery(filter[t], field=t)
-                    for t in match_query_terms
-                    if t in filter
-                ]
-            )
-            term_query_terms = ["city", "country", "state"]
-            conjuncts.extend(
-                [TermQuery(filter[t], field=t) for t in term_query_terms if t in filter]
-            )
+        Returns an empty list when no filter fields are given. Search errors
+        are raised to the caller.
+        """
+        conjuncts = []
 
-            if conjuncts:
-                query = ConjunctionQuery(*conjuncts)
-            else:
-                return []
+        match_query_terms = ["description", "name", "title"]
+        conjuncts.extend(
+            [MatchQuery(filter[t], field=t) for t in match_query_terms if t in filter]
+        )
+        term_query_terms = ["city", "country", "state"]
+        conjuncts.extend(
+            [TermQuery(filter[t], field=t) for t in term_query_terms if t in filter]
+        )
 
-            options = SearchOptions(fields=["*"], limit=limit, skip=offset)
+        if not conjuncts:
+            return []
 
-            result = self.scope.search(
-                self.index_name, search.SearchRequest.create(query), options
-            )
-            hotels = []
-            for row in result.rows():
-                hotel = row.fields
-                hotels.append(hotel)
-        except Exception as e:
-            print("Error while performing fts search", {e})
-        return hotels
+        query = ConjunctionQuery(*conjuncts)
+        options = SearchOptions(fields=["*"], limit=limit, skip=offset)
+
+        result = self.scope.search(
+            self.index_name, search.SearchRequest.create(query), options
+        )
+        # rows() executes the request lazily, so errors surface here
+        return [row.fields for row in result.rows()]
 
 
 @cache
