@@ -17,7 +17,7 @@ To run this prebuilt project, you will need:
 
 - [Couchbase Capella](https://www.couchbase.com/products/capella/) cluster with [travel-sample](https://docs.couchbase.com/python-sdk/current/ref/travel-app-data-model.html) bucket loaded.
   - To run this tutorial using a self managed Couchbase cluster, please refer to the [appendix](#running-self-managed-couchbase-cluster).
-- [Python](https://www.python.org/downloads/) 3.9 or higher installed
+- [Python](https://www.python.org/downloads/) 3.10 or higher installed
   - Ensure that the Python version is [compatible](https://docs.couchbase.com/python-sdk/current/project-docs/compatibility.html#python-version-compat) with the Couchbase SDK.
 - Loading Travel Sample Bucket
   If travel-sample is not loaded in your Capella cluster, you can load it by following the instructions for your Capella Cluster:
